@@ -1,0 +1,259 @@
+\begin{frame}
+	\frametitle{Определение ООП}
+
+	\begin{large}
+	\emph{Объектно-ориентированное программирование} -- парадигма программирования, в которой основными концепциями являются понятия объектов и классов. (©wikipedia)
+	\end{large}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Объекты в реальном мире имеют состояние и поведение.}
+
+	Объект: велосипед\\
+	Состояние:
+	\begin{itemize}
+		\item{положение руля}
+		\item{текущая передача}
+		\item{скорость вращения педалей}
+		\item{положение в пространстве}
+	\end{itemize}
+	Поведение:
+	\begin{itemize}
+		\item{сменить передачу}
+		\item{повернуть руль}
+		\item{узнать текущую скорость}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Объекты в программировании похожи на объекты из реального мира}
+
+	\begin{columns}[c]
+	\column{2.1in}
+	\begin{large}
+	Состояние -- набор полей, аналог полей структур в языке C.
+
+	\medskip
+	Поведение -- методы, аналог функций, применяемых к конкретному объекту.
+	\end{large}
+	\column{2.3in}
+	\begin{minted}[bgcolor=bgcode]{java}
+	class Bicycle {
+	    /* fields */
+	    float handlebarAngle;
+	    int gear;
+	    float cadence;
+	    Vector pos;
+
+	    /* methods */
+	    void setGear(int gear);
+	    void turn(float angle);
+	    float getSpeed();
+	}
+	\end{minted}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Класс -- это тип объекта}
+	\begin{large}
+	В реальном мире много объектов с одинаковым набором свойств и поведением. Например много велосипедов одной модели.
+
+	\medskip
+	В программировании это называется классом. Каждый объект принадлежит какому-либо классу (является экземпляром этого класса).
+	\end{large}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Свойства ООП}
+	\begin{small}
+	\begin{itemize}
+		\item{Всё является объектом (в реальных языках часто это не так, например в Java есть небольшой набор простых типов данных, переменные этих типов не являются объектами).}
+		\item{Вычисления осуществляются путём взаимодействия (обмена данными) между объектами, при котором один объект требует, чтобы другой объект выполнил некоторое действие. Объекты взаимодействуют, вызывая методы друг друга (аналоги функций в C)}
+		\item{Каждый объект имеет независимую память, которая состоит из других объектов.}
+		\item{Каждый объект является представителем класса, который выражает общие свойства объектов (таких, как целые числа или списки).}
+		\item{В классе задаётся поведение (функциональность) объекта. Тем самым все объекты, которые являются экземплярами одного класса, могут выполнять одни и те же действия.}
+	\end{itemize}
+	\end{small}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Сравним процедурное и объектно-ориентированное программирование}
+
+	\begin{columns}[c]
+	\column{2.1in}
+	\emph{C-style}
+	\medskip
+	\begin{minted}[bgcolor=bgcode]{java}
+	int fd;
+	char buf[16];
+
+	fd = open("file.txt");
+
+	fseek(fd, 10);
+	read(fd, buf, 16);
+
+	close(fd);
+	\end{minted}
+	\column{2.1in}
+	\emph{C++-style}
+	\medskip
+	\begin{minted}[bgcolor=bgcode]{java}
+	File f;
+	String s;
+
+	f = new File("file.txt");
+
+	f.fseek(10);
+	s = f.read(16);
+
+	delete f;
+	\end{minted}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Java}
+
+	\begin{Large}
+	\emph{Java} — объектно-ориентированный язык программирования, разработанный компанией Sun Microsystems (в последующем приобретённой компанией Oracle). Дата официального выпуска — 23 мая 1995 года.
+	\end{Large}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Java во многом отличается от C/C++}
+
+	\begin{itemize}
+		\item{Остутствуют возможности процедурного программирования (нет функций и структур в чистом виде)}
+		\item{Остутствуют низкоуровневые возможности (работа с адресами скрыта, программист не должен делать никаких предположений о том, как передаются аргументы функций и.т.д.)}
+		\item{Работа с памятью -- автоматическая, память объектов освобождается, когда не остается ссылок на них.}
+		\item{Есть всего 8 простых типов данных, все остальные - классы}
+		\item{Программа компилируется не в исполняемый файл, а в специальный байт-код, который затем может быть исполнен с помощью виртуальной машины java}
+	\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Hello World !}
+
+	\begin{large}
+	\emph{HelloWorldApp.java:}
+	\begin{minted}[bgcolor=bgcode,gobble=0]{java}
+	class HelloWorldApp {
+	    public static void main(String[] args) {
+	        System.out.println("Hello World!");
+	    }
+	}
+	\end{minted}
+
+	\emph{Компиляция:}
+	\begin{minted}[bgcolor=bgcode,gobble=0]{bash}
+	javac HelloWorldApp.java
+	\end{minted}
+
+	\emph{Запуск:}
+	\begin{minted}[bgcolor=bgcode,gobble=0]{bash}
+	java HelloWorldApp
+	\end{minted}
+	\end{large}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Простые типы данных}
+
+	\begin{LARGE}
+	\emph{byte, short, int, long, float, double, boolean, char}
+	\end{LARGE}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Посмотрим на пример описания и использования класса}
+	\begin{minted}[bgcolor=bgcode,gobble=0,linenos=true,baselinestretch=0.7]{java}
+	class Rectangle {
+	    float x1, y1, x2, y2; 
+
+	    Rectangle(float ix1, float iy1,
+	              float ix2, float iy2) {
+	        x1 = ix1; y1 = iy1;
+	        x2 = ix2; y2 = iy2;
+	    }   
+
+	    float getSquare() {
+	        return (x2 - x1) * (y2 - y1);
+	    }   
+	}
+
+	class HelloWorldApp {
+	    public static void main(String [] argc) {
+	        Rectangle r = new Rectangle(1, 4, 7, 6);
+	        float s = r.getSquare();
+	        System.out.println(s);
+	    }   
+	}
+	\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Использование объектов}
+
+	\begin{minted}[bgcolor=bgcode,gobble=0,linenos=true]{java}
+	class HelloWorldApp {
+	    public static void main(String [] argc) {
+	        Rectangle r1 = new Rectangle(1, 4, 7, 6);
+	        Rectangle r2 = new Rectangle(0, 0, 5, 4);
+	        float s = r1.getSquare();
+
+	        System.out.println(s);
+	        s = r2.getSquare();
+	        System.out.println(s);
+	    }
+	}
+	\end{minted}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Статические поля и методы}
+
+	\begin{large}
+	Поля и методы, описанный с ключевым словом \emph{static} относятся не к объекту, а к классу.
+	\end{large}
+
+	\medskip
+	\begin{minted}[bgcolor=bgcode,gobble=0,linenos=true,baselinestretch=1.0]{java}
+	class Test {
+	    static int x;
+	    int y;
+
+	    static void test1() {
+	        System.out.println(x);
+	    }
+
+	    static void test2() {
+	        System.out.println(y); /* error */
+	    }
+	}
+	\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Статические поля и методы}
+	\begin{minted}[bgcolor=bgcode,gobble=0,linenos=true,baselinestretch=1.0,firstnumber=13]{java}
+	class HelloWorldApp {
+	    public static void main(String [] argc) {
+	        Test t1 = new Test();
+	        Test t2 = new Test();
+	        t1.x = 10;
+
+	        System.out.println(t2.x);
+	        t2.test1();
+
+	        System.out.println(Test.x);
+	        Test.test1();
+	    }
+	}
+	\end{minted}
+
+\end{frame}

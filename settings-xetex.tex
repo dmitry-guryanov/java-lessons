@@ -1,0 +1,30 @@
+%\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{tikz}
+\usepackage{graphicx}
+%\usepackage[T1]{fontenc}
+%\usepackage[T2A]{fontenc}
+%\setdefaultlanguage[spelling=modern]{russian}
+
+\usepackage{polyglossia}  %% подключает пакет многоязыковой вёрстки
+%\setmainfont{DejaVu Serif}  %% задаёт основной шрифт документа
+%\setsansfont{DejaVu Sans}  %% задаёт шрифт без засечек
+%\setmonofont{Liberation Mono}  %% задаёт моноширинный шрифт
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}  %% устанавливает поведение шрифтов по умолчанию
+
+\setromanfont[Mapping=tex-text]{Hoefler Text}
+\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
+\setmonofont[Scale=MatchLowercase]{Andale Mono}
+
+
+\beamertemplatenavigationsymbolsempty
+\usetheme{boxes}
+\usecolortheme{beaver}
+\usefonttheme{structurebold}
+\useinnertheme{circles}
+\usepackage{minted}
+
+\DeclareTextFontCommand{\emph}{\bfseries}
+\definecolor{bgcode}{rgb}{0.90,0.90,0.90}
+
+\author{Дмитрий Гурьянов}
