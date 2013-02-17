@@ -15,4 +15,4 @@ java.pdf: lesson-2-body.tex lesson-3-body.tex settings.tex java.tex
 	$(LATEX) $(LFLAGS) java.tex
 
 clean:
-	rm -f *.aux *.log *.nav *.out *.pdf *.snm *.vrb texput.log
+	rm -f *.aux *.log *.nav *.out *.pdf *.snm *.vrb texput.log *~
