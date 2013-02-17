@@ -1,5 +1,5 @@
-
-
+\section{Введение в объектно-ориентированное программирование часть 2}
+\subsection{Описание классов}
 \begin{frame}[fragile]
 	\frametitle{Конструкторы можно вызывать друг из друга}
 	{\large Есть только одно ограничение -- вызов конструктора должен быть первый оператором.}
@@ -77,7 +77,7 @@
 	\end{minted}
 \end{frame}
 
-
+\subsection{Массивы}
 \begin{frame}[fragile]
 	\frametitle{Массивы}
 
@@ -128,9 +128,172 @@
 	\end{Large}
 \end{frame}
 
+\subsection{Строки}
 \begin{frame}[fragile]
-	\frametitle{Строки в Java -- это объекты}
+	\begin{Large}
+	\frametitle{Строки в Java -- это объекты, а не массивы символов}
 
-	Дополнительные возможности
+	Дополнительные возможности:
+	\begin{itemize}
+	\item{Создание как в языке С: \emph{\texttt{String s = "qwe";}}}
+	\item{Доступен оператор \texttt{+}}
+	\end{itemize}
+	\medskip
+	\begin{minted}[bgcolor=bgcode]{java}
+	String s1 = "123";
+	String s2 = "45";
+
+	/* will print "12345" */
+	System.out.println(s1 + s2);
+	\end{minted}
+	\end{Large}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Полезные методы класса \textit{String}}
+
+	\begin{large}
+	Получить длину строки
+	\begin{minted}[bgcolor=bgcode]{java}
+	int length()
+	\end{minted}
+
+	Получить симовол в указанной позиции
+	\begin{minted}[bgcolor=bgcode]{java}
+	char charAt(int index)
+	\end{minted}
+
+	Сравнить строки (аналог функции \emph{strcmp} в С)
+	\begin{minted}[bgcolor=bgcode]{java}
+	int compareTo(String anotherString) 
+	\end{minted}
+
+	Сравнить строки (возвращает просто true или false)
+	\begin{minted}[bgcolor=bgcode]{java}
+	boolean equals(Object anObject)
+	\end{minted}
+
+	Сконвертировать в массив символов
+	\begin{minted}[bgcolor=bgcode]{java}
+	char[] toCharArray()
+	\end{minted}
+	\end{large}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Полезные методы класса \textit{String}}
+
+	\begin{large}
+	Проверить, содержит ли данную последовательность символов
+	\begin{minted}[bgcolor=bgcode]{java}
+	boolean contains(CharSequence s)
+	\end{minted}
+
+	Разделить на части
+	\begin{minted}[bgcolor=bgcode]{java}
+	String[] split(String regex);
+	\end{minted}
+
+	Проверить, начинается ли строка с данной
+	\begin{minted}[bgcolor=bgcode]{java}
+	boolean startsWith(String prefix)
+	\end{minted}
+
+	\href{http://docs.oracle.com/javase/6/docs/api/java/lang/String.html}{документация по классу String}
+	\end{large}
+\end{frame}
+
+\subsection{Работа с файлами}
+\begin{frame}[fragile]
+	\frametitle{Чтение байт из файла}
+
+	\begin{Large}
+	\begin{minted}[bgcolor=bgcode]{java}
+	FileInputStream fis;
+	byte [] buf = new byte[10];
+
+	fis = new FileInputStream("1.txt");
+	fis.read(buf);
+	\end{minted}
+	\end{Large}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Чтение символов}
+
+	\begin{columns}[c]
+	\column{1.7in}
+	\includegraphics[width=1.8in]{lesson-3-Diagram1.eps}
+	\column{2.8in}
+	\begin{minted}[bgcolor=bgcode]{java}
+	FileInputStream fis;
+	InputStreamReader is;
+	char [] buf = new char[10];
+
+	fis = new FileInputStream("1.txt");
+	is = new InputStreamReader(
+	                    is, "utf-8");
+
+	is.read(buf);
+	\end{minted}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{FileReader -- объединение FileInputStream и InputStreamReader для удобства}
+
+	\begin{Large}
+	
+	\begin{minted}[bgcolor=bgcode]{java}
+	FileReader fr;
+	char [] buf = new char[10];
+
+	fr = new FileReader("1.txt");
+	fr.read(buf);
+	\end{minted}
+	\end{Large}
+\end{frame}
+
+\subsection{Задачи}
+\begin{frame}[fragile]
+	\frametitle{Задачи}
+
+	\begin{enumerate}
+		\begin{item}
+			Написать программу для сортировки массива случайных чисел. Напечатать массив до и после сортировки.
+
+			Дополнения:
+			\begin{itemize}
+				\item{Взять размер массива из параметра командной строки, если он не указан или указано более одного параметра - напечатать справку.}
+				\item{Считать массив из параметров командной строки. Размер должен определяться из числа аргументов.}
+			\end{itemize}
+		\end{item}
+		\begin{item}
+			Найти все простые числа из диапазона, заданного в командной строке 
+		\end{item}
+		\begin{item}
+			Вычислить заданную функцию от чисел из командной строки. Реализовать функции min, max, avg, sum.
+
+
+			Пример использования:
+			\begin{minted}[bgcolor=bgcode]{bash}
+			~: java Calc max 12 65 123 5 12 4356 42
+			4356
+			\end{minted}
+
+		\end{item}
+
+	\end{enumerate}
+\end{frame}
+
+\subsection{Полезные ресурсы}
+\begin{frame}
+	\frametitle{Полезные ресурсы}
+
+	\begin{itemize}
+	\item{\href{http://docs.oracle.com/javase/6/docs/}{Официальная документация}}
+	\item{\href{http://www.oracle.com/technetwork/java/javase/documentation/java-se-7-doc-download-435117.html}{Архив с официальной документацией}}
+	\item{\href{http://docs.oracle.com/javase/tutorial/}{Java tutorials}}
+	\end{itemize}
 \end{frame}
 
