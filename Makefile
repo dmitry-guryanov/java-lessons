@@ -3,7 +3,7 @@ LFLAGS=-shell-escape
 
 
 #all: lesson-2.pdf lesson-3.pdf lesson-4.pdf lesson-7.pdf lesson-8.pdf java.pdf
-all: lesson-8.pdf
+all: lesson-10.pdf
 
 lesson-2.pdf: lesson-2.tex lesson-2-body.tex settings.tex
 	$(LATEX) $(LFLAGS) lesson-2.tex
@@ -19,6 +19,9 @@ lesson-7.pdf: lesson-7.tex lesson-7-body.tex settings.tex
 
 lesson-8.pdf: lesson-8.tex lesson-8-body.tex settings.tex
 	$(LATEX) $(LFLAGS) lesson-8.tex
+
+lesson-10.pdf: lesson-10.tex lesson-10-body.tex settings.tex
+	$(LATEX) $(LFLAGS) lesson-10.tex
 
 java.pdf: lesson-2-body.tex lesson-3-body.tex lesson-4-body.tex settings.tex java.tex
 	$(LATEX) $(LFLAGS) java.tex
