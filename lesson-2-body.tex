@@ -263,3 +263,105 @@
 	\end{minted}
 
 \end{frame}
+
+\subsection{Описание классов}
+\begin{frame}[fragile]
+	\frametitle{Конструкторы можно вызывать друг из друга}
+	{\large Есть только одно ограничение -- вызов конструктора должен быть первый оператором.}
+
+	\medskip
+	\begin{minted}[bgcolor=bgcode,tabsize=4,linenos=true]{java}
+		class Rectangle {
+		    float x1, y1, x2, y2;
+
+		    Rectangle(float ix1, float iy1,
+		              float ix2, float iy2) {
+		        x1 = ix1; y1 = iy1;
+		        x2 = ix2; y2 = iy2;
+		    }
+
+		    Rectangle(float ix, float iy) {
+		        Rectangle(0, 0, ix, iy);
+		    }
+		}
+	\end{minted}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Обычные методы тоже могут иметь одинаковые имена}
+
+	\begin{large}
+	\begin{minted}[bgcolor=bgcode,baselinestretch=0.8,linenos=true]{java}
+		class Rectangle {
+		    /* ... */
+		    void scale(float sx, float sy) {
+		        ix1 *= sx; ix2 *= sx;
+		        iy1 *= sy; iy2 *= sy;
+		    }
+
+		    void scale(float s) {
+		        ix1 *= s; ix2 *= s;
+		        iy1 *= s; iy2 *= s;
+		    }
+
+		    /* better */
+		    void scale(float s) {
+		        scale(s, s);
+		    }
+		}
+	\end{minted}
+	\end{large}
+\end{frame}
+
+
+\subsection{Массивы}
+\begin{frame}[fragile]
+	\frametitle{Массивы}
+
+	\begin{Large}
+	Объявление ссылки на массив:
+	\begin{minted}[bgcolor=bgcode]{java}
+	int arr[];
+	Rectangle rects[];
+	\end{minted}
+
+	Создание массива:
+	\begin{minted}[bgcolor=bgcode]{java}
+	arr = new int[20];
+	\end{minted}
+
+	Создание массива объектов:
+	\begin{minted}[bgcolor=bgcode]{java}
+	rects = new Rectangle[2];
+	rects[0] = new Rectangle(1, 2);
+	rects[1] = new Rectangle(1, 3);
+	\end{minted}
+	\end{Large}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Массивы}
+
+	\begin{Large}
+	Создание и заполнение массива:
+	\begin{minted}[bgcolor=bgcode]{java}
+	int arr[] = {1, 2, 3};
+	Rectangle rects = { new Rectangle(1, 2),
+	                    new Rectangle(1, 3)};
+	\end{minted}
+
+	Длина массива:
+	\begin{minted}[bgcolor=bgcode]{java}
+	System.out.println(rects.length);
+	\end{minted}
+
+	Работа с массивом:
+	\begin{minted}[bgcolor=bgcode]{java}
+	x = arr[0] + arr[1];
+	for(i = 0; i < arr.length; i++)
+	    System.out.println(arr[i]);
+	\end{minted}
+
+	\end{Large}
+\end{frame}

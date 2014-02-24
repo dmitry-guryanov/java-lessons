@@ -2,8 +2,8 @@ LATEX=pdflatex
 LFLAGS=-shell-escape
 
 
-#all: lesson-2.pdf lesson-3.pdf lesson-4.pdf lesson-7.pdf lesson-8.pdf java.pdf
-all: lesson-12.pdf
+all: lesson-2.pdf lesson-3.pdf lesson-4.pdf lesson-7.pdf lesson-8.pdf java.pdf
+#all: lesson-12.pdf
 
 lesson-2.pdf: lesson-2.tex lesson-2-body.tex settings.tex
 	$(LATEX) $(LFLAGS) lesson-2.tex

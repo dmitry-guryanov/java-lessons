@@ -1,53 +1,4 @@
 \section{Введение в объектно-ориентированное программирование часть 2}
-\subsection{Описание классов}
-\begin{frame}[fragile]
-	\frametitle{Конструкторы можно вызывать друг из друга}
-	{\large Есть только одно ограничение -- вызов конструктора должен быть первый оператором.}
-
-	\medskip
-	\begin{minted}[bgcolor=bgcode,tabsize=4,linenos=true]{java}
-		class Rectangle {
-		    float x1, y1, x2, y2;
-
-		    Rectangle(float ix1, float iy1,
-		              float ix2, float iy2) {
-		        x1 = ix1; y1 = iy1;
-		        x2 = ix2; y2 = iy2;
-		    }
-
-		    Rectangle(float ix, float iy) {
-		        Rectangle(0, 0, ix, iy);
-		    }
-		}
-	\end{minted}
-
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Обычные методы тоже могут иметь одинаковые имена}
-
-	\begin{large}
-	\begin{minted}[bgcolor=bgcode,baselinestretch=0.8,linenos=true]{java}
-		class Rectangle {
-		    /* ... */
-		    void scale(float sx, float sy) {
-		        ix1 *= sx; ix2 *= sx;
-		        iy1 *= sy; iy2 *= sy;
-		    }
-
-		    void scale(float s) {
-		        ix1 *= s; ix2 *= s;
-		        iy1 *= s; iy2 *= s;
-		    }
-
-		    /* better */
-		    void scale(float s) {
-		        scale(s, s);
-		    }
-		}
-	\end{minted}
-	\end{large}
-\end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{\textit{this} -- это ссылка на текущий объект}
@@ -55,8 +6,9 @@
 	\begin{large}
 	Используется для того, чтобы:
 	\begin{itemize}
-	\item{Передать ссылку на текущий объект в метод другого объекта}
 	\item{Обратиться к полям, скрытым локальными переменными и параметрами методов}
+	\item{Передать ссылку на текущий объект в метод другого объекта}
+	\item{Вызвать другой конструктор из текущего класса}
 	\end{itemize}
 	\end{large}
 
@@ -77,55 +29,46 @@
 	\end{minted}
 \end{frame}
 
-\subsection{Массивы}
 \begin{frame}[fragile]
-	\frametitle{Массивы}
+	\frametitle{\textit{this}}
 
-	\begin{Large}
-	Объявление ссылки на массив:
-	\begin{minted}[bgcolor=bgcode]{java}
-	int arr[];
-	Rectangle rects[];
-	\end{minted}
+	\begin{minted}[bgcolor=bgcode,baselinestretch=0.8,linenos=true]{java}
+		class Button {
+		    String label;
+		    Window parent;
 
-	Создание массива:
-	\begin{minted}[bgcolor=bgcode]{java}
-	arr = new int[20];
-	\end{minted}
+		    Button(Window parent, String label) {
+		        this.parent = parent;
+		        this.label = label;
+		    }
+		}
 
-	Создание массива объектов:
-	\begin{minted}[bgcolor=bgcode]{java}
-	rects = new Rectangle[2];
-	rects[0] = new Rectangle(1, 2);
-	rects[1] = new Rectangle(1, 3);
+		class Window {
+
+		    Button makeButton(String label) {
+		        return new Button(this, label);
+		    }
+		}
 	\end{minted}
-	\end{Large}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Массивы}
+	\frametitle{\textit{this}}
 
-	\begin{Large}
-	Создание и заполнение массива:
-	\begin{minted}[bgcolor=bgcode]{java}
-	int arr[] = {1, 2, 3};
-	Rectangle rects = { new Rectangle(1, 2),
-	                    new Rectangle(1, 3)};
+	\begin{minted}[bgcolor=bgcode,baselinestretch=0.8,linenos=true]{java}
+		class Point {
+		    int x, y;
+
+		    Point(int x, int y) {
+		        this.x = x;
+		        this.y = y;
+		    }
+
+		    Point() {
+		        this(0, 0);
+		    }
+		}
 	\end{minted}
-
-	Длина массива:
-	\begin{minted}[bgcolor=bgcode]{java}
-	System.out.println(rects.length);
-	\end{minted}
-
-	Работа с массивом:
-	\begin{minted}[bgcolor=bgcode]{java}
-	x = arr[0] + arr[1];
-	for(i = 0; i < arr.length; i++)
-	    System.out.println(arr[i]);
-	\end{minted}
-
-	\end{Large}
 \end{frame}
 
 \subsection{Строки}
@@ -203,55 +146,48 @@
 	\end{large}
 \end{frame}
 
-\subsection{Работа с файлами}
 \begin{frame}[fragile]
-	\frametitle{Чтение байт из файла}
+	\frametitle{Преобразование строк в число}
 
-	\begin{Large}
+	\begin{large}
+	Для преобразвания строк в числа можно воспользоваться классами \textit{Short}, \textit{Integer}, \textit{Long}, \textit{Float}, \textit{Double}.
+	Пример:
+
 	\begin{minted}[bgcolor=bgcode]{java}
-	FileInputStream fis;
-	byte [] buf = new byte[10];
+	String s1 = "124";
+	String s2 = "32.45"
+	int x;
+	float y;
 
-	fis = new FileInputStream("1.txt");
-	fis.read(buf);
+	x = Integer.parseInt(s1);
+	y = Float.parseFloat(s2);
 	\end{minted}
-	\end{Large}
+
+	\end{large}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Чтение символов}
+	\frametitle{Метод \textit{toString}}
 
-	\begin{columns}[c]
-	\column{2.8in}
 	\begin{minted}[bgcolor=bgcode]{java}
-	FileInputStream fis;
-	InputStreamReader is;
-	char [] buf = new char[10];
+		class Point {
+		    int x, y;
+		    Point(int x, int y) { this.x = x; this.y = y; }
+		    public String toString() {
+		        return String.format("Point(%d, %d)", x, y);
+		    }
+		}
+		class Test {
+		    public static void main(String []args) {
+		        Point a = new Point(1,2);
+		        Point b = new Point(4,2);
 
-	fis = new FileInputStream("1.txt");
-	is = new InputStreamReader(
-	                    is, "utf-8");
-
-	is.read(buf);
+		        System.out.println(a);
+		        System.out.printf("mypoint=%s\n", b);
+		    };
+		}
 	\end{minted}
-	\column{1.7in}
-	\includegraphics[width=1.75in]{lesson-3-Diagram1.eps}
-	\end{columns}
-\end{frame}
 
-\begin{frame}[fragile]
-	\frametitle{FileReader -- объединение FileInputStream и InputStreamReader для удобства}
-
-	\begin{Large}
-	
-	\begin{minted}[bgcolor=bgcode]{java}
-	FileReader fr;
-	char [] buf = new char[10];
-
-	fr = new FileReader("1.txt");
-	fr.read(buf);
-	\end{minted}
-	\end{Large}
 \end{frame}
 
 \subsection{Задачи}
@@ -272,14 +208,10 @@
 			Найти все простые числа из диапазона, заданного в командной строке 
 		\end{item}
 		\begin{item}
-			Вычислить заданную функцию от чисел из командной строки. Реализовать функции min, max, avg, sum.
-
-
-			Пример использования:
-			\begin{minted}[bgcolor=bgcode]{bash}
-			~: java Calc max 12 65 123 5 12 4356 42
-			4356
-			\end{minted}
+			Написать класс Rectangle, добавить в него метод \textit{compareTo(Rectangle r)}, который сравнивает площать текущего
+			с площадью прямоугольника \textit{r}, и метод \textit{toString()}.
+			
+			После этого сделать массив из случайных прямоугольников, отсортировать его и вывести на экран.
 
 		\end{item}
 

@@ -1,3 +1,55 @@
+\subsection{Работа с файлами}
+\begin{frame}[fragile]
+	\frametitle{Чтение байт из файла}
+
+	\begin{Large}
+	\begin{minted}[bgcolor=bgcode]{java}
+	FileInputStream fis;
+	byte [] buf = new byte[10];
+
+	fis = new FileInputStream("1.txt");
+	fis.read(buf);
+	\end{minted}
+	\end{Large}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Чтение символов}
+
+	\begin{columns}[c]
+	\column{2.8in}
+	\begin{minted}[bgcolor=bgcode]{java}
+	FileInputStream fis;
+	InputStreamReader is;
+	char [] buf = new char[10];
+
+	fis = new FileInputStream("1.txt");
+	is = new InputStreamReader(
+	                    is, "utf-8");
+
+	is.read(buf);
+	\end{minted}
+	\column{1.7in}
+	\includegraphics[width=1.75in]{lesson-3-Diagram1.eps}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{FileReader -- объединение FileInputStream и InputStreamReader для удобства}
+
+	\begin{Large}
+	
+	\begin{minted}[bgcolor=bgcode]{java}
+	FileReader fr;
+	char [] buf = new char[10];
+
+	fr = new FileReader("1.txt");
+	fr.read(buf);
+	\end{minted}
+	\end{Large}
+\end{frame}
+
+
 \section{Наследование}
 
 \subsection{Наследование атрибутов}
