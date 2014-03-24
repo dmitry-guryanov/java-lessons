@@ -1,215 +1,314 @@
-\section{Абстрактные классы и интерфейсы}
-
-\subsection{Абстрактные классы и методы}
+\section{Пакеты и модификаторы доступа}
+\subsection{Пакеты}
 
 \begin{frame}[fragile]
-	\frametitle{Абстрактные методы}
+	\frametitle{Библиотека Java — это сборник классов}
 
-	Иногда нет смысла в реализации метода, например:
-	\begin{minted}[bgcolor=bgcode]{java}
-	class Function {
-	    float calc(float x) { return 0; }
-	}
-
-	class Line extends Function {
-	    float k, b;
-
-	    float calc(float x) {
-	        return k * x + f;
-	    }
-	}
-	\end{minted}
-	В этом случае метод можно описать как abstract:
-	\begin{minted}[bgcolor=bgcode]{java}
-	abstract float calc(float x);
-	\end{minted}
-	Это означает что у метода нет реализации.
-
+	\begin{Large}
+	\begin{itemize}
+	\item{Библиотеки нужны для того, чтобы использовать в своем проекте классы, написанные другими людьми или наоборот, написать классы, которые потом смогут использовать другие.}
+	\item{Обычно проекты выполнены в виде библиотеки, в который каждый файл содержит один класс.}
+	\end{itemize}
+	\end{Large}
 \end{frame}
 
-
 \begin{frame}[fragile]
-	\frametitle{Абстрактные классы}
+	\frametitle{Использование библиотек}
+
 	\begin{large}
-	Класс в котором есть хотя бы один абстрактный метод --- абстрактный и должен быть описан с ключевым словом \emph{abstract}:
+	Обычно физически библиотека это jar-файл (архив), но может быть и просто директорией. Для подключения библиотеки надо использовать параметр \emph{-cp} при компиляции и запуске или переменную окружения \emph{CLASSPATH}:
+	\medskip
 
-	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	abstract class Function {
-	    abstract float calc(float x);
-	};
-	\end{minted}
-
-	Мы не можем создавать объекты абстрактных классов, но можем описывать ссылки таких типов, например:
-	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	Function f;
-	f = new Function(); /* error */
-	f = new Line(10, 15); /* OK */
+	\begin{minted}[bgcolor=bgcode]{bash}
+	javac -cp /usr/share/java/protobuf.jar App.java
+	javac -cp /home/student/mylib App.java
+	
+	export CLASSPATH=/home/student/mylib
+	javac App.java
 	\end{minted}
 	\end{large}
+
+	По-умолчанию подключена только системная библиотека Java.
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Часть методов может быть реализована}
+	\frametitle{Библиотеки состоят из пакетов}
 
-	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	abstract class Function {
-	    abstract float calc(float x);
-
-	    void printTable(float a, float b, int n) {
-	        for (float x = a; x <= b; x += (b - a) / n)
-	             System.out.println(
-	                  String.format("%f %f", x, calc(x)));
-	    }
-	};
-	\end{minted}
-
-	В этом случае метод \emph{printTable} будет вызывать \emph{calc}, реализованный в дочернем классе.
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Абстрактные классы можно наследовать}
-	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	abstract class A {
-	    abstract int method1();
-	};
-
-	abstract class B extends A {
-	    abstract int method2();
-	};
-
-	abstract class C extends B {
-	    int method1() { return 10; }
-	};
-
-	class D extends C {
-	    int method2() { return 20; }
-	};
-	\end{minted}
-
-	Неабстрактым класс можно объявить только тогда, когда будут реализованы все его методы.
-\end{frame}
-
-\subsection{Интерфейсы}
-\begin{frame}[fragile]
-	\frametitle{Допустим в Java было бы разрешено множественное наследование}
-
+	Библиотека --- это очень большое хранилище классов, обычно она разделена на более мелкие --- пакеты.
+	Например у нас есть следующая структура файлов на диске:
+	\medskip
 	\begin{columns}[c]
-	\column{2.55in}
-	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	abstract class A {
-	    abstract void method1();
-	};
-	class B extends A {
-	    void method1() { return 1; }
-	};
-	class C extends A {
-	    void method1() { return 2; }
-	};
-	class D extends B, C {
-	    void test() {
-	        println(method1());
-	    }
+	\column{2.0in}
+	\begin{verbatim}
+mylib
+   |-package1
+       |-ClassA.java
+       |-package2
+          |-ClassB.java
+	\end{verbatim}
+	\medskip
+	\begin{small}
+	В файлах ClassA.java и ClassB.java должно быть указано имя пакета с помощью ключевого слова \emph{package}.
+	\end{small}
+	\column{2.45in}
+	CLassA.java:
+	\begin{minted}[bgcolor=bgcode]{java}
+	package package1;
+
+	class ClassA {
 	};
 	\end{minted}
-	\column{1.90in}
-	\includegraphics[width=1.9in]{lesson-7-Diagram1.eps}
 
-	\smallskip
-	Из какого класса будет вызван \emph{method1()} ?
+	ClassB.java:
+	\begin{minted}[bgcolor=bgcode]{java}
+	package package1.package2;
+
+	class ClassB {
+	};
+	\end{minted}
 	\end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Проблемы с множественным наследованием}
+	\frametitle{Использование пакетов}
 	\begin{large}
-	\begin{itemize}
-	\item{Ромбовидное наследование, рассмотренное на предыдущем слайде}
-	\item{Порядок наследования меняет поведение класса}
-	\end{itemize}
+	Теперь мы можем подключить эту библиотеку и воспользоваться классами \emph{ClassA} и \emph{ClassB} из любого места:
+	\medskip
 
-	Множественное наследование в чистом виде --- это ошибка проектирования.
+	\begin{minted}[bgcolor=bgcode]{java}
+	import package1.ClassA;
+	import package1.package2.ClassB;
+
+	class App {
+	    ClassA a = new ClassA();
+	    ClassB b = new ClassB();
+	};
+	\end{minted}
+
+	Компиляция и запуск:
+	\begin{minted}[bgcolor=bgcode]{bash}
+	javac -cp /home/student/mylib App.java
+	java -cp /home/student/mylib App
+	\end{minted}
+	\end{large}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Различные варианты использования}
+
+	\begin{large}
+	Можно подключить один класс из пакета:
+	\begin{minted}[bgcolor=bgcode]{java}
+	import package1.ClassA;
+	\end{minted}
+
+	Все классы из пакета:
+	\begin{minted}[bgcolor=bgcode]{java}
+	import package1.*;
+	\end{minted}
+
+	Либо вообще не подключать с помощью \emph{import}, а каждый раз указывать полный путь:
+	\begin{minted}[bgcolor=bgcode]{java}
+	class App {
+	    public static void main(String args[]) {
+	        package1.ClassA a;
+	        a = new package1.ClassA;
+	    }
+	}
+	\end{minted}
 	\end{large}
 \end{frame}
 
+\subsection{Модификаторы доступа}
 
 \begin{frame}[fragile]
-	\frametitle{Интерфейсы}
-	Интерфейс --- это полностью абстрактный класс, не содержащий никаких полей.
+	\frametitle{Проблема с написанием классов для других}
+	Допустим у нас был класс для описания линии:
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	class Line {
+	    int x1, y1, x2, y2;
+
+	    Line(int x1, int y1, int x2, int y2) {
+	        this.x1 = x1; this.y1 = y1;
+	        this.x2 = x2; this.y2 = y2;
+	    }
+
+	    void draw(Graphics g) { ... };
+	}
+	\end{minted}
+
+	Мы дали этот класс другу, который написал следующий код:
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	Line l = new Line(10, 20, 30, 40);
+	System.out.format("line: (%d-%d) - (%d-%d)",
+	                  l.x1, l.y1, l.x2, l.y2);
+	\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Проблема с написанием классов для других}
+	Потом мы решили использовать новый класс Point для хранения координат:
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	class Point {
+	    int x, y;
+	    Point(int x, int y) {
+	        this.x = x; this.y = y
+	    }
+	}
+	class Line {
+	    Point p1, p2;
+	    Line(int x1, int y1, int x2, int y2) {
+	        p1 = new Point(x1, y1);
+	        p2 = new Point(x2, y2);
+	    }
+	}
+	\end{minted}
+
+	После чего дали этот новый код другу. У него все сломалось.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Что делать ?}
+	\begin{Large}
+	Надо описывать, что в нашем классе можно использовать и что нельзя. То, что можно использовать всем мы не должны менять ни в коем случае.\end{Large}
+	
+	\begin{small} (в этом случае придется обойти всех, кто воспользовался нашим классом, объяснить им, зачем мы сделали такое изменение, терпеливо выслушать нецензурную брань и уговорить их исправить свой код).\end{small}
 
 	\medskip
-	Описывается с помощью ключевого слова \emph{interface}. Так как все методы и так обязательно должны быть абстрактными, то слово \emph{abstract} писать не нужно.
+	\begin{Large}
+	Это можно сделать с помощью модификаторов доступа.
+	\end{Large}
+\end{frame}
 
-	\medskip
-	В случае интерфейсов вместо термина "наследует" используют термин "реализует", вместо ключевого слова \emph{extends} используется \emph{implements}.
+\begin{frame}[fragile]
+	\frametitle{Модификаторы доступа для классов}
 
-	\begin{minted}[bgcolor=bgcode]{java}
-	interface X {
-	    int method1();
+	\begin{Large}
+	\begin{itemize}
+	\item{\emph{public} --- класс можно использовать везде}
+	\item{\emph{без модификатора} - класс можно использовать только внутри пакета}
+	\end{itemize}
+	\end{Large}
+
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	class Point {
+	    ...
 	};
 
-	class A implements X {
-	    int method1() { return 10 };
+	public class Line {
+	    ....
+	};
+	\end{minted}
+
+	\emph{public} классы обязательно должны быть описаны в файлах с таким же именем.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Модификаторы доступа для членов класса}
+
+	{\bf
+	\begin{large}
+	\begin{tabular}[b]{|l|c|c|c|c|}
+	\hline
+	&класс&пакет&подкласс&везде\\[2ex]
+	\hline
+	public&Y&Y&Y&Y\\[2ex]
+	\hline
+	protected&Y&Y&Y&X\\[2ex]
+	\hline
+	без модификатора&Y&Y&X&X\\[2ex]
+	\hline
+	private&Y&X&X&X\\[2ex]
+	\hline
+	\end{tabular}
+	\end{large}
+	}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Пример}
+
+	\emph{test/ClassA.java}:
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	package test;
+	class ClassA {
+	    public int a;
+	    int b;
+	    protected int c;
+	    private d;
+	};
+	\end{minted}
+
+	\emph{test/ClassB.java}
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	package test;
+	class ClassB extends ClassA {
+	    void method1() {
+	        print(a + b); /* OK */
+	        print(c); /* OK */
+	        print(d); /* err */
+	    };
 	};
 	\end{minted}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Пример}
-
+	\emph{Test.java}:
 	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	interface Clickable {
-	    void press();
-	    void release();
-	};
-	interface Drawable {
-	    void draw(Graphics g);
-	};
-	class Button implements Clickable, Drawable {
-	    int state = 0;
+	import test.*;
 
-	    void press { state  = 1; };
-	    void release { state = 0; };
-	    void draw(Graphics g) {
-	        g.drawRect(0, 0, 20, 10);
-	        g.drawString("OK", 5, 5);
-	    }
-	};
-	\end{minted}
+	class Test {
+	    void method2() {
+	        ClassA x = new ClassA();
+	        print(x.a); /* OK */
+	        print(x.b); /* err */
+	        print(x.c); /* err */
+	        print(x.d); /* err */
 
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Использование ссылок на интерфейс}
-
-	Ссылки на интерфейс используются так же как и ссылки на абстрактные классы --- мы можем их описать, присвоить им ссылку на объект, который реализует данный интерфейс, но экземпляр интерфейса создать нельзя.
-
-	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
-	Button b = new Button();
-	Clickable c = b;
-	Drawable d = b;
-
-	b.press();
-	c.release();
-
-	d.draw(g);
-	\end{minted}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Задача}
-
-	Сделать абстрактный класс \emph{Function} с абстрактным методом для вычисления значения функции и реализованным --- для рисования графика.
-	\begin{minted}[bgcolor=bgcode]{java}
-	abstract class Function {
-	    abstract float calc(float x);
-	    void draw(Graphics g) {
-	        ...
 	    }
 	}
 	\end{minted}
 
-	Унаследовать от Function классы \emph{Line} и \emph{Parabola}, в которых метод для вычисления значения функции реализован.
-	Проверить работу классов с помощью явно заданных в методе main значений.
+\end{frame}
 
-	Пример рисования с записью в графический файл --- \href{http://lk4.mipt.ru/153/examples/DrawToFile.java}{http://lk4.mipt.ru/153/examples/DrawToFile.java}.
+\begin{frame}[fragile]
+	\frametitle{Правила расстановки можификаторов доступа}
+	\begin{enumerate}
+	\begin{item}
+	Поля делать \emph{private}. Eсли нужно получать доступ к полю извне --- написать методы для этого, например
+	\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+	class ClassA {
+	    private int x;
+	    int getX() { return x; }
+	    void setX(int x) { this.x = x; }
+	}
+	\end{minted}
+	\end{item}
+	\item{Если метод объявлен как \emph{public} --- нельзя менять его поведение, тип возвращаемого значения, аргументы. Также нельзя его удалять.}
+	\item{Вспомогательные классы объявлять без модификатора.}
+
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Задача}
+Написать класс для работы со стеком.
+Сделать 3 класса: один класс, обекты которого будут храниться в стеке (например классы Point или Line из этого семинара), класс Node, в котором будет храниться указатель на элемент стека, и, например, указатели на предыдущий и следующий элементы. И класс Stack, который будет содержать методы push и pop.
+
+Пример:
+
+\begin{minted}[bgcolor=bgcode,linenos=true]{java}
+Stack stack = new Stack();
+Point p;
+
+stack.push(new Point(1,2));
+stack.push(new Point(2,3));
+
+p = stack.pop();
+print(p.getX());
+\end{minted}
+
+	
 \end{frame}
